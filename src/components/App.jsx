@@ -5,7 +5,9 @@ import Nav from './Nav';
 import SearchArea from './SearchArea';
 import MovieList from './MovieList';
 import MovieInfo from './MovieInfo';
-import Loader from 'react-loader-spinner';
+// import Loader from 'react-loader-spinner';
+// import { FadeLoader} from 'react-spinners';
+import FadeLoader from 'react-spinners/FadeLoader';
 import './App.css'
 
 class App extends Component {
@@ -15,14 +17,13 @@ class App extends Component {
             movies: [],
             searchTerm: '',
             currentMovie: null,
-            loading: true
         }
         this.apiKey = '80231796f33ff699249bbd0aa04d8183'
     }
     //key=80231796f33ff699249bbd0aa04d8183
     handleSubmit = (e) => {
         e.preventDefault();
-        fetch(`https://api.themoviedb.org/3/search/movie?api_key=${this.apiKe}&query=${this.state.searchTerm}`)
+        fetch(`https://api.themoviedb.org/3/search/movie?api_key=${this.apiKey}&query=${this.state.searchTerm}`)
         .then(data => data.json())
         .then(data => {
             console.log(data);
@@ -31,10 +32,10 @@ class App extends Component {
         .catch(err=>{console.log(err)})
     }
     handleChange = (e) => {
-        this.setState ({ searchTerm: e.target.value , loading: false});
+        this.setState ({ searchTerm: e.target.value});
     }
     viewMovieInfo = (id) => {
-        const filteredMovie = this.state.movies.filter(movie => movie.id == id)
+        const filteredMovie = this.state.movies.filter(movie => movie.id === id)
         const newCurrentMovie = filteredMovie.length > 0 ? filteredMovie[0] : null;
         this.setState({ currentMovie: newCurrentMovie})
     }
@@ -48,8 +49,8 @@ class App extends Component {
                 <div className = "App" >
                     < Nav params={this.props.params}/>
                     { this.state.currentMovie == null ? <div>< SearchArea handleSubmit={this.handleSubmit} handleChange={this.handleChange}/>< MovieList viewMovieInfo={this.viewMovieInfo} movies={this.state.movies}/></div> : <MovieInfo currentMovie={this.state.currentMovie} closeMovieInfo={this.closeMovieInfo} />}
+                    { this.state.movies.length == 0 ? <div className='container'>< FadeLoader sizeUnit={"px"} size={150} color={'#123abc'}/></div> : ''}
                     
-                    {/* < Loader type="ThreeDots" color="#somecolor" height={80} width={80} /> */}
                 </div>
         );
     }
