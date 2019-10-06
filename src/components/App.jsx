@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-// import { BrowserRouter, Switch, Route } from "react-router-dom";
-// import Route from 'react-router-dom/Route';
+import { BrowserRouter as Router, NavLink } from "react-router-dom";
+import Route from 'react-router-dom/Route';
 import Nav from './Nav';
 import SearchArea from './SearchArea';
 import MovieList from './MovieList';
 import MovieInfo from './MovieInfo';
-// import Loader from 'react-loader-spinner';
-// import { FadeLoader} from 'react-spinners';
 import FadeLoader from 'react-spinners/FadeLoader';
+import SomeText from './SomeText'
 import './App.css'
 
 class App extends Component {
@@ -46,12 +45,36 @@ class App extends Component {
     render() {
 
         return(
+            <Router>
                 <div className = "App" >
                     < Nav params={this.props.params}/>
-                    { this.state.currentMovie == null ? <div>< SearchArea handleSubmit={this.handleSubmit} handleChange={this.handleChange}/>< MovieList viewMovieInfo={this.viewMovieInfo} movies={this.state.movies}/></div> : <MovieInfo currentMovie={this.state.currentMovie} closeMovieInfo={this.closeMovieInfo} />}
-                    { this.state.movies.length == 0 ? <div className='container'>< FadeLoader sizeUnit={"px"} size={150} color={'#123abc'}/></div> : ''}
-                    
+                    <div className='container nav-search'>
+                    <ul>
+                        <li className="nav-item">
+                        <NavLink to="/home" exect activeStyle={{color:'blue'}}>Home</NavLink>
+                        </li>
+                        <li className="nav-item">
+                        <NavLink to="/search" exect activeStyle={{color:'blue'}}>Search Movies</NavLink>
+                        </li>
+                    </ul>
+                    </div>
+                    <Route path='/home' exect strict render={
+                         () => {
+                      return (<SomeText/>);
+                     }
+                    }/>
+                    <Route path='/search' exect strict render={
+                         () => {
+                      return (
+                        <div>{ this.state.currentMovie == null ? <div>< SearchArea handleSubmit={this.handleSubmit} handleChange={this.handleChange}/>< MovieList viewMovieInfo={this.viewMovieInfo} movies={this.state.movies}/></div> : <MovieInfo currentMovie={this.state.currentMovie} closeMovieInfo={this.closeMovieInfo} />}
+                             { this.state.movies.length == 0 ? <div className='container'>< FadeLoader sizeUnit={"px"} size={150} color={'#123abc'}/></div> : ''}
+                        </div>
+                        );
+                      }
+                    }/>
+
                 </div>
+            </Router>
         );
     }
 }

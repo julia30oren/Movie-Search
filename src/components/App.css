@@ -68,3 +68,17 @@ a {
     font-variant: normal;
     text-transform: none;
 }
+
+ul {
+    padding: 20px;
+    display: flex;
+}
+
+li {
+    padding-left: 20px;
+}
+
+.nav-search {
+    margin-left: 60%;
+    margin-top: -55px;
+}
