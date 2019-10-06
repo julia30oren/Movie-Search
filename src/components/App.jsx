@@ -17,12 +17,12 @@ class App extends Component {
             currentMovie: null,
             loading: true
         }
-        this.apiKey = process.env.React_App_Api
+        this.apiKey = '80231796f33ff699249bbd0aa04d8183'
     }
     //key=80231796f33ff699249bbd0aa04d8183
     handleSubmit = (e) => {
         e.preventDefault();
-        fetch(`https://api.themoviedb.org/3/search/movie?api_key=80231796f33ff699249bbd0aa04d8183&query=${this.state.searchTerm}`)
+        fetch(`https://api.themoviedb.org/3/search/movie?api_key=${this.apiKe}&query=${this.state.searchTerm}`)
         .then(data => data.json())
         .then(data => {
             console.log(data);
